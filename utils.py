@@ -14,10 +14,12 @@ def fetch_videos(videos_dir='videos'):
         os.rename('tv_human_interactions_videos', videos_dir)
         os.remove('videos.tar.gz')
         
+        return videos_dir
+        
     else:
         print('Files already downloaded!')
+        return None
         
-    return videos_dir
         
 def separate_videos(videos_dir='videos'):
     """Separate the videos in videos_dir by classes and place them in separate folders."""
