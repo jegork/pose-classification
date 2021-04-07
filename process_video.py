@@ -74,3 +74,34 @@ def single(video_path, model = 'mobilenet_thin', verbose=10, model_instance=None
                  print(f"Frame number {frameN} processed")
         frameN += 1
     return points_per_frame
+
+def transform(video):
+    _df = pd.DataFrame(video, columns=['frame', 'human', 'x', 'y', 'bodypart', 'score'])
+    
+    #convert long to wide format
+    _points = _df.pivot(index=['frame', 'human'], columns='bodypart', values=['x', 'y', 'score']).reset_index()
+
+
+    # change multi-index to single index with underscores
+    _points.columns = list(map(lambda x: str(x[1] + "_" + x[0]), _points.columns))
+    # remove underscore in first two columns
+    _points.columns = _points.columns[2:].insert(0, 'human').insert(0, 'frame')
+    
+    _points.frame = _points.frame.astype('int64')
+    _points.human = _points.human.astype('int64')
+
+    # get column types
+    id_columns = _points.columns[:2]
+    coord_columns = list(filter(lambda x: x.endswith('x') or x.endswith('y'), list(_points.columns)))
+    score_columns = list(filter(lambda x: x.endswith('score'), list(_points.columns)))
+    
+    #replaces NAs with zeros and cast types
+    filled_points = _points.copy(True)
+    filled_points[coord_columns] = _points[coord_columns].fillna(0).astype('float64')    
+    filled_points[score_columns] = _points[score_columns].fillna(0).astype('float64')
+    
+    filled_points[score_columns] = filled_points[score_columns].round(2)
+    
+    filled_points.sort_values(['frame','human'], inplace=True)
+
+    return filled_points
