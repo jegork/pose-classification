@@ -105,3 +105,41 @@ def transform(video):
     filled_points.sort_values(['frame','human'], inplace=True)
 
     return filled_points
+
+
+def batch(dir_path, model = 'mobilenet_thin', video_ids=None):
+    if model not in ['cmu', 'mobilenet_thin', 'mobilenet_v2_large', 'mobilenet_v2_small']:
+        raise Exception('Incompatible model chosen! Available models: cmu, mobilenet_thin, mobilenet_v2_large, mobilenet_v2_small')
+        
+    e = TfPoseEstimator(get_graph_path(model), target_size=(result_width, result_height))
+
+    videos_list = os.listdir(dir_path)
+    videos_list.sort(key=lambda x: int(x.split('.')[0]))
+    
+    finished_videos = []
+    
+    if len(videos_list) == 0:
+        print("Folder is empty")
+        return False
+    
+    if not os.path.isdir('out'):
+        os.mkdir('out')
+        
+    if video_ids is not None:
+        videos_list = [videos_list[i-1] for i in video_ids]
+    
+    for video in videos_list:
+        single_video = single(dir_path+"/"+video, model=None, model_instance=e)
+        transformed = transform(single_video)
+        
+        video_path_no_ext = video.split('.')[0]
+        class_name = dir_path.split('/')[1]
+        if not os.path.exists(f'out/{class_name}'):
+            os.mkdir(f'out/{class_name}')
+            
+        transformed.to_csv(f'out/{class_name}/{video_path_no_ext}.csv', index=False)
+        print(f'Finished {class_name}/{video}')
+        finished_videos.append(f'{class_name}/{video}')
+
+    return finished_videos
+
