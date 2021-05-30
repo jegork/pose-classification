@@ -45,3 +45,8 @@ def separate_videos(videos_dir='videos'):
             v_id = v.split("_")[1]
 
             os.rename(base_path+v, base_path+v_class+"/"+v_id)
+
+if __name__ == '__main__':
+    path = fetch_videos()
+    if path is not None:
+        separate_videos()

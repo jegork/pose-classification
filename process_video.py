@@ -144,3 +144,9 @@ def batch(dir_path, model = 'mobilenet_thin', video_ids=None):
 
     return finished_videos
 
+if __name__ == "__main__":
+    batch('videos/highfive')
+    batch('videos/handshake')
+    batch('videos/hug')
+    batch('videos/kiss')
+    #batch('videos/negative')

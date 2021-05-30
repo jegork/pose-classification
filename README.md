@@ -37,12 +37,16 @@ pip install git+https://github.com/okankop/vidaug
 ```
 
 and install codecs needed for opencv (Ubuntu)
-
 ```
 apt-get update
 apt-get install ffmpeg libsm6 libxext6
 ```
 
+then run video_utils.py and process_video.py (Linux example below)
+```
+python video_utils.py
+python process_video.py
+```
 ### Results
 
 | Model               | Training (%) | Test (%) |
