@@ -34,3 +34,25 @@ The proposed options are:
 | OpenPose-based (#1) | 33           | 25      |
 | VGG16-based (#3)    | 100          | 100     |
 | CNN-based (#4)      | 80           | 75      |
+
+
+
+<figure>
+    <img src="./graphs/cnn/cnn_confusion_matrix.png" width="800">
+    <figcaption>Figure 1. Confusion matrix of CNN-based model</figcaption>
+</figure>
+
+<figure class="image">
+    <img src="./graphs/openpose/openpose_loss_accuracy.png" width="800">
+    <figcaption>Figure 2. Training of OpenPose-based model</figcaption>
+</figure>
+
+<figure class="image">
+    <img src="./graphs/vgg/vgg_loss_accuracy.png" width="800">
+    <figcaption>Figure 3. Training of VGG16-based model</figcaption>
+</figure>
+
+<figure class="image">
+    <img src="./graphs/vgg/vgg_confusion_matrix.png" width="800">
+    <figcaption>Figure 4. Training of VGG16-based model</figcaption>
+</figure>
