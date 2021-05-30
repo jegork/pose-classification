@@ -47,6 +47,10 @@ then run video_utils.py and process_video.py (Linux example below)
 python video_utils.py
 python process_video.py
 ```
+to run use VGG16 and CNN-based models, first run video_to_matrix.py
+```
+python video_to_matrix.py
+```
 ### Results
 
 | Model               | Training (%) | Test (%) |
@@ -88,3 +92,8 @@ It can also be attributed to unsuitability of OpenPose to this task. First of al
 Secondly, as OpenPose was not made to be used for such cases, there was no connection between humans between frames. If there were two persons on a video, there is no way to assign a unique identifier to each human, so the model did not have any idea whether the human on the left side of the first frame was indeed the same human as on the left side of the screen of the second frame. 
 
 Thirdly, the additional noise data caused by the people in the background was hard to get rid of because again, there was no identifier for humans, so if there are four persons, it is hard to tell from the data which ones should be deleted. 
+
+### TODO
+- Structure notebooks
+- Use config file
+- Change folder names
