@@ -27,9 +27,25 @@ The proposed options are:
 - vgg_lstm.ipynb implements algorithm #3
 - 2dcnn_lstm.ipynb implements algorithm #4
 
+### Installation
+
+To use the notebooks, first install needed python packages
+```
+pip install optuna tf_slim opencv-python scikit-image
+pip install git+https://github.com/jegork/tf-pose-estimation
+pip install git+https://github.com/okankop/vidaug
+```
+
+and install codecs needed for opencv (Ubuntu)
+
+```
+apt-get update
+apt-get install ffmpeg libsm6 libxext6
+```
+
 ### Results
 
-| Model               | Training (%) | Test(%) |
+| Model               | Training (%) | Test (%) |
 | ------------------- | ------------ | ------- |
 | OpenPose-based (#1) | 33           | 25      |
 | VGG16-based (#3)    | 100          | 100     |
