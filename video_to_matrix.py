@@ -1,11 +1,8 @@
 import tensorflow as tf
 import cv2
-import shutil
-import os
+import os, configparser
 import numpy as np
-import video_utils
 
-base = 'videos/'
 result_width = 128
 result_height = 128
 
@@ -24,7 +21,7 @@ def resize_frame(frame):
     return frame
 
 def process_class(class_name):
-    folder_path = base+class_name
+    folder_path = base_folder + class_name
     videos = os.listdir(folder_path)
     
     fourcc = cv2.VideoWriter_fourcc(*'MPEG')
@@ -39,7 +36,7 @@ def process_class(class_name):
             input_file = folder_path+'/'+video
 
             video_name = video.split('.')[0]
-            output_folder = 'output/'+class_name
+            output_folder = converted_folder+class_name
 
             if not os.path.exists(output_folder):
                 os.mkdir(output_folder)
@@ -49,8 +46,6 @@ def process_class(class_name):
             #height = cap.get(4)
             
             tensors_list = []
-
-            frameN = 1
 
             if cap.isOpened() is False:
                 raise Exception('Error opening file!')
@@ -62,8 +57,6 @@ def process_class(class_name):
 
                 image = resize_frame(image)
                 tensors_list.append(image)
-
-                frameN += 1
             
             tensor = np.array(tensors_list)
             np.save(f'{output_folder+"/"+video_name}.npy', tensor)
@@ -73,6 +66,12 @@ def process_class(class_name):
     print(f'Class {class_name} finished')
 
 if __name__ == '__main__':
+    config = configparser.ConfigParser()
+    config.read('config.ini')
+
+    base_folder = config['FOLDERS']['DownloadedVideos']
+    converted_folder = config['FOLDERS']['MatrixVideos']
+
     process_class('kiss')
     process_class('highfive')
     process_class('handshake')

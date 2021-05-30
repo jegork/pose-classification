@@ -1,3 +1,4 @@
 /videos
-/out
-/output
+/converted_videos
+/openpose_videos
+/pose-classification-venv

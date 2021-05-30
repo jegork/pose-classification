@@ -1,6 +1,6 @@
 import numpy as np
 import cv2
-import os
+import os, configparser
 import pandas as pd
 from tf_pose.estimator import TfPoseEstimator
 from tf_pose.networks import get_graph_path
@@ -123,8 +123,8 @@ def batch(dir_path, model = 'mobilenet_thin', video_ids=None):
         print("Folder is empty")
         return False
     
-    if not os.path.isdir('out'):
-        os.mkdir('out')
+    if not os.path.isdir(out_videos_folder[:-1]):
+        os.mkdir(out_videos_folder[:-1])
         
     if video_ids is not None:
         videos_list = [videos_list[i-1] for i in video_ids]
@@ -135,18 +135,24 @@ def batch(dir_path, model = 'mobilenet_thin', video_ids=None):
         
         video_path_no_ext = video.split('.')[0]
         class_name = dir_path.split('/')[1]
-        if not os.path.exists(f'out/{class_name}'):
-            os.mkdir(f'out/{class_name}')
+        if not os.path.exists(out_videos_folder + class_name):
+            os.mkdir(out_videos_folder + class_name)
             
-        transformed.to_csv(f'out/{class_name}/{video_path_no_ext}.csv', index=False)
+        transformed.to_csv(f'{out_videos_folder}{class_name}/{video_path_no_ext}.csv', index=False)
         print(f'Finished {class_name}/{video}')
         finished_videos.append(f'{class_name}/{video}')
 
     return finished_videos
 
 if __name__ == "__main__":
-    batch('videos/highfive')
-    batch('videos/handshake')
-    batch('videos/hug')
-    batch('videos/kiss')
+    config = configparser.ConfigParser()
+    config.read('config.ini')
+
+    videos_folder = config['FOLDERS']['DownloadedVideos']
+    out_videos_folder = config['FOLDERS']['OpenPoseVideos']
+
+    batch(videos_folder+'highfive')
+    batch(videos_folder+'handshake')
+    batch(videos_folder+'videos/hug')
+    batch(videos_folder+'videos/kiss')
     #batch('videos/negative')

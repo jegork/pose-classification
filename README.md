@@ -31,12 +31,28 @@ The proposed options are:
 
 To use the notebooks, first install needed python packages
 ```
-pip install optuna tf_slim opencv-python scikit-image
-pip install git+https://github.com/jegork/tf-pose-estimation
+pip install -r requirements.txt
 pip install git+https://github.com/okankop/vidaug
+pip install git+https://github.com/jegork/tf-pose-estimation
 ```
 
-and install codecs needed for opencv (Ubuntu)
+to compile OpenPose (optional, not recommended)
+```
+git clone https://www.github.com/jegork/tf-pose-estimation
+cd tf-pose-estimation
+pip install -r requirements.txt
+
+cd tf_pose/pafprocess
+swig -python -c++ pafprocess.i && python3 setup.py build_ext --inplace
+
+cd ..
+cd ..
+cd ..
+
+pip install tf-pose-estimation/
+```
+
+and install codecs needed for opencv (if using server, Ubuntu example)
 ```
 apt-get update
 apt-get install ffmpeg libsm6 libxext6
@@ -47,7 +63,7 @@ then run video_utils.py and process_video.py (Linux example below)
 python video_utils.py
 python process_video.py
 ```
-to run use VGG16 and CNN-based models, first run video_to_matrix.py
+to use VGG16 and CNN-based models, first run video_to_matrix.py
 ```
 python video_to_matrix.py
 ```
@@ -95,5 +111,6 @@ Thirdly, the additional noise data caused by the people in the background was ha
 
 ### TODO
 - Structure notebooks
-- Use config file
+- (done) Use config file
 - Change folder names
+- Fix OpenPose
