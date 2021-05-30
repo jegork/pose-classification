@@ -52,9 +52,8 @@ cd ..
 pip install tf-pose-estimation/
 ```
 
-and install codecs needed for opencv (if using server, Ubuntu example)
+(optional, if using server) Install codecs needed for opencv (Ubuntu example)
 ```
-apt-get update
 apt-get install ffmpeg libsm6 libxext6
 ```
 
@@ -99,6 +98,8 @@ python video_to_matrix.py
 
 ### Discussion
 
+By using data augmentation, which generated 600 additional samples, CNN-based model's accuracy went from 75%/40% to 80%/75%!
+
 No matter the extended hyperparameter tuning and changes to the architecture of the OpenPose-based model (adding layers, changing amount of nodes per layer, experimental addition of Convolutional Layers) the model performs very poorly, achieving very low accuracy that is merely better than random guessing. 
 
 Mainly, the poor performance can be attributed to the size of data set: it only included 200 samples which is usually not enough to train a deep neural network (while using more shallow neural nets also did not improve the metrics). 
@@ -112,5 +113,5 @@ Thirdly, the additional noise data caused by the people in the background was ha
 ### TODO
 - Structure notebooks
 - (done) Use config file
-- Change folder names
+- (done) Change folder names
 - Fix OpenPose
